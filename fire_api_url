@@ -1,0 +1,28 @@
+import requests
+import json
+
+# URL открытого API с данными о пожарах (пример с использованием API данных о пожарах в США)
+fire_api_url = "https://api.weather.com/v3/wx/conditions/current?apiKey=YOUR_API_KEY&format=json&geocode=37.7749,-122.4194"
+
+# Замените "YOUR_API_KEY" на свой ключ API (можно получить после регистрации на сервисе)
+# И указать нужные географические координаты для вашего региона
+
+try:
+    # Отправляем запрос к API
+    response = requests.get(fire_api_url)
+
+    # Проверяем успешность запроса
+    if response.status_code == 200:
+        fire_data = response.json()
+
+        # Сохраняем данные в файл
+        with open("fire_data.json", "w") as file:
+            json.dump(fire_data, file, indent=4)
+
+        print("Данные о пожарах успешно получены и сохранены в файле 'fire_data.json'.")
+
+    else:
+        print(f"Ошибка при запросе данных о пожарах. Код состояния: {response.status_code}")
+
+except Exception as e:
+    print(f"Произошла ошибка: {str(e)}")
